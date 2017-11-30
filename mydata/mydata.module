@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Contains mydata.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function mydata_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the mydata module.
+    case 'help.page.mydata':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('This dispaly information what you enter your application.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+function mydata_theme() {
+  // We use a template file to allow for translation of blocks of content.
+  // Therefore we need to add this content at the theming layer.
+  return [
+    'mydata_description' => [
+      'template' => 'description',
+      'variables' => [],
+    ],
+  ];
+}
+
+
+// hook for add field in site information form and change text of submit button
+
+function mydata_form_system_site_information_settings_alter(&$form, $form_state, $form_id) {
+  $form['actions']['submit']['#value'] = \Drupal\Core\Field\FieldFilteredMarkup::create(t('Update Configuration'));
+  
+  $form['site_information']['mydata_site_organisation'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Site Organization'),
+    '#default_value' => \Drupal::state()->get('mydata.settings.mysettingname') ?: 'bar',
+  );
+  $form['#submit'][] = 'mymodule_handler';
+}
+function mymodule_handler($form, &$form_state) {
+    \Drupal::state()->set('mydata.settings.mysettingname', $form_state->getValue('mydata_site_organisation'));
+}
+

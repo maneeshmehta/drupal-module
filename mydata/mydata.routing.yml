@@ -1,0 +1,27 @@
+mydata.mydata_controller_display:
+  path: '/mydata'
+  defaults:
+    _controller: '\Drupal\mydata\Controller\MydataController::display'
+    _title: 'display'
+  requirements:
+    _permission: 'access content'
+
+
+mydata.display_table_controller_display:
+  path: '/mydata/hello/table'
+  defaults:
+    _controller: '\Drupal\mydata\Controller\DisplayTableController::display'
+    _title: 'display'
+  requirements:
+    _permission: 'access content'
+
+
+    
+mydata.settings:
+  path: '/admin/structure/mydata/settings'
+  defaults:
+    _form: '\Drupal\mydata\Form\exampleSettingsForm'
+    _title: 'mydata'
+  requirements:
+    _permission: 'administer site configuration'
+  
